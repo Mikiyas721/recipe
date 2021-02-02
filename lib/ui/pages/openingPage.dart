@@ -46,7 +46,7 @@ class OpeningPage extends StatelessWidget {
                   },
                   padding: 15.vPadding,
                   color: Color(0xffe3f4ea),
-                  textColor: context.buttonColor,
+                  textColor: context.primaryColor,
                   child: Text('Log in'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10))),

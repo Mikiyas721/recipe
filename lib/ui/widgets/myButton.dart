@@ -27,7 +27,7 @@ class MyButton extends StatelessWidget {
           child: FlatButton(
             padding: 15.vPadding,
             onPressed: onPressed,
-            color: context.buttonColor,
+            color: context.primaryColor,
             textColor: Colors.white,
             child: isLoading
                 ? CircularProgressIndicator()
