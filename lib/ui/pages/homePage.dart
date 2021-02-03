@@ -81,7 +81,9 @@ class HomePage extends StatelessWidget {
             NavButton(
               icon: Icons.add_circle_outline,
               label: 'Add',
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/dishAddingPage');
+              },
             ),
             NavButton(
               icon: Icons.search,
@@ -93,7 +95,10 @@ class HomePage extends StatelessWidget {
             NavButton(
               icon: Icons.person,
               label: 'Person',
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/profilePage');
+
+              },
             ),
           ],
         ),

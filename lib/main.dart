@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './ui/pages/dishAddingPage.dart';
+import './ui/pages/profilePage.dart';
 import './ui/pages/categoryPage.dart';
 import './ui/pages/homePage.dart';
 import './ui/pages/searchPage.dart';
@@ -24,7 +26,10 @@ class MyApp extends StatelessWidget {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
             headline2: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white),
+            headline3: TextStyle(
+                fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),
             bodyText2: TextStyle(color: Colors.white),
+            bodyText1: TextStyle(color: Colors.black),
             subtitle2:
                 TextStyle(fontSize: 12, color: Color(0xffcacaca), height: 1.7),
           ),
@@ -42,4 +47,6 @@ final routes = {
   '/homePage': (BuildContext context) => HomePage(),
   '/categoryPage': (BuildContext context) => CategoryPage(),
   '/searchPage': (BuildContext context) => SearchPage(),
+  '/profilePage': (BuildContext context) => ProfilePage(),
+  '/dishAddingPage': (BuildContext context) => DishAddingPage(),
 };

@@ -6,6 +6,7 @@ class MyTextField extends StatelessWidget {
   final String initialValue;
   final String error;
   final bool obscureText;
+  final int maxLines;
   final TextInputType keyBoardType;
   final void Function(String value) onChanged;
 
@@ -16,7 +17,8 @@ class MyTextField extends StatelessWidget {
       this.error,
       @required this.onChanged,
       this.keyBoardType = TextInputType.text,
-      this.obscureText = false})
+      this.obscureText = false,
+      this.maxLines = 1})
       : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class MyTextField extends StatelessWidget {
           color: Color(0xffefefef),
           borderRadius: BorderRadius.all(Radius.circular(15))),
       child: TextFormField(
+          maxLines: maxLines,
           initialValue: initialValue,
           obscureText: obscureText,
           keyboardType: keyBoardType,
