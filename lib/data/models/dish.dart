@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../util/enums/category.dart';
 import '../../util/abstracts/mappable.dart';
+import '../../util/extensions/common.dart';
 
 class Dish extends Mappable {
   final int id;
   final String name;
   final String ingredients;
   final String description;
+  final DishCategory dishCategory;
   final int userId;
 
   Dish({
@@ -13,6 +16,7 @@ class Dish extends Mappable {
     @required this.name,
     @required this.ingredients,
     @required this.description,
+    @required this.dishCategory,
     @required this.userId,
   });
 
@@ -22,6 +26,7 @@ class Dish extends Mappable {
       name: map['name'],
       ingredients: map['ingredients'],
       description: map['description'],
+      dishCategory: map['dish_category'].getCategory(),
       userId: map['user_id'],
     );
   }
@@ -33,6 +38,7 @@ class Dish extends Mappable {
       'name': name,
       'ingredients': ingredients,
       'description': description,
+      'dish_category':dishCategory.getString(),
       'user_id': userId,
     };
   }

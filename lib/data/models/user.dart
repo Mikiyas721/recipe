@@ -8,14 +8,14 @@ class User extends Mappable {
   final String email;
   final String password;
 
-  User({
-    this.id,
-    @required this.name,
-    this.phoneNumber,
-    this.email,
-    @required this.password});
+  User(
+      {this.id,
+      this.name,
+      @required this.phoneNumber,
+      this.email,
+      @required this.password});
 
-  factory User.fromJson(Map map){
+  factory User.fromJson(Map map) {
     return User(
       id: map['id'],
       name: map['name'],

@@ -1,0 +1,9 @@
+enum DishCategory {
+  BREAKFAST,
+  LUNCH,
+  DRINKS,
+  APPETIZERS,
+  SOUPS,
+  VEGETARIAN,
+  DESSERTS,
+}

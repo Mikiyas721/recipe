@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe/ui/widgets/myButton.dart';
+import 'package:recipe/ui/widgets/myDropDown.dart';
 import 'package:recipe/ui/widgets/myTextField.dart';
 import '../../util/extensions/common.dart';
 
@@ -27,6 +28,7 @@ class DishAddingPage extends StatelessWidget {
                   title: 'description',
                   maxLines: 6,
                   onChanged: (String value) {}),
+              MyDropDown(items: [], title: 'Dish Category', onChanged: (String value){}),
               Row(
                 children: [
                   Column(
