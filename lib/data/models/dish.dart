@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe/data/models/user.dart';
 import '../../util/enums/category.dart';
 import '../../util/abstracts/mappable.dart';
 import '../../util/extensions/common.dart';
@@ -11,6 +12,7 @@ class Dish extends Mappable {
   final DishCategory dishCategory;
   final DateTime createdAt;
   final int userId;
+  final User user;
 
   Dish({
     this.id,
@@ -20,17 +22,19 @@ class Dish extends Mappable {
     @required this.dishCategory,
     this.createdAt,
     @required this.userId,
+    this.user,
   });
 
-  factory Dish.fromJson(Map map){
+  factory Dish.fromJson(Map map) {
     return Dish(
       id: map['id'],
       name: map['name'],
       ingredients: map['ingredients'],
       description: map['description'],
-      dishCategory: map['dish_category'].getCategory(),
+      dishCategory: (map['dish_category'] as String).getCategory(),
       createdAt: DateTime.parse(map['created_at']),
-      userId: map['user_id'],
+      userId: map['user_Id'],
+      user: User.fromJson(map['user']),
     );
   }
 
@@ -41,7 +45,7 @@ class Dish extends Mappable {
       'name': name,
       'ingredients': ingredients,
       'description': description,
-      'dish_category':dishCategory.getString(),
+      'dish_category': dishCategory.getString(),
       'user_id': userId,
     };
   }

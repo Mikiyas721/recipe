@@ -49,12 +49,13 @@ class ApiQuery {
   Future<QueryResult> checkUser(User user) {
     return _query('''
       query checkUser{
-        users(where: {_and: {user_name: {_eq: "${user.name}"}, password: {_eq: "${user.password}"}}}) {
+        users(where: {_and: {phone_number: {_eq: "${user.phoneNumber}"}, password: {_eq: "${user.password}"}}}) {
           id
         }
       }
       ''');
   }
+
   Future<QueryResult> getUser(int userId) {
     return _query('''
       query MyQuery {
@@ -67,6 +68,7 @@ class ApiQuery {
       }
       ''');
   }
+
   Future<QueryResult> getLatestDishes() {
     return _query('''
       query MyQuery {
@@ -77,10 +79,18 @@ class ApiQuery {
           description
           dish_category
           created_at
+          user {
+            id
+            name
+            phone_number
+            email
+            password
+          }
         }
       }
     ''');
   }
+
   Future<QueryResult> getDishByCategory(DishCategory category) {
     return _query('''
       query MyQuery {
@@ -91,6 +101,13 @@ class ApiQuery {
           description
           dish_category
           created_at
+          user {
+            id
+            name
+            phone_number
+            email
+            password
+          }      
         }
       }
     ''');
@@ -102,9 +119,10 @@ class ApiQuery {
         dishes(where: {_and: {user_id: {_eq: $userId}}}) {
           id
           name
-          ingredient
+          ingredients
           description
           dish_category 
+          created_at
         }
       }
     ''');
@@ -114,7 +132,7 @@ class ApiQuery {
     return _mutate('''
       mutation addDish {
         insert_dishes_one(object: {name: "${dish.name}", ingredients: "${dish.ingredients}",
-         description: "${dish.description}", dish_category: "${dish.dishCategory.getString()}, user_id:"${dish.userId}"}){
+         description: "${dish.description}", dish_category: "${dish.dishCategory.getString()}", user_id:"${dish.userId}"}){
           id
         }
        }

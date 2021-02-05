@@ -18,7 +18,7 @@ class PopCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: IconButton(
-              icon: Icon(Icons.arrow_back_outlined),
+              icon: Icon(Icons.arrow_back_outlined,color: Colors.black,),
               onPressed: () {
                 Navigator.pop(context);
               }),

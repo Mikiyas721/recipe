@@ -66,6 +66,7 @@ class ProfilePage extends StatelessWidget {
         body: BlocProvider(
             bloc: DishBloc(),
             builder: (BuildContext context, DishBloc bloc) {
+              bloc.loadMyDishes();
               return DishList(
                   noDataMessage: 'You have no dish',
                   stream: bloc.myDishesStream);

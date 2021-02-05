@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../data/models/dish.dart';
+import '../../ui/widgets/dishCard.dart';
 
 class DishList extends StatelessWidget {
   final String noDataMessage;
@@ -16,12 +18,13 @@ class DishList extends StatelessWidget {
             ? Center(child: CircularProgressIndicator())
             : snapshot.data.isEmpty
                 ? Center(
-                    child: Text(noDataMessage),
+                    child: Text(noDataMessage,style: TextStyle(color: Colors.black),),
                   )
                 : ListView.builder(
                     itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int count) {
-                      return Container();
+                    itemBuilder: (BuildContext context, int index) {
+                      return DishCard(
+                          dish: Dish.fromJson(snapshot.data[index]));
                     });
       },
     );

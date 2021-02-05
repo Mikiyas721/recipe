@@ -41,6 +41,7 @@ class _CategoryPageState extends State<CategoryPage>
     return BlocProvider(
         bloc: bloc,
         builder: (BuildContext context, DishBloc bloc) {
+          bloc.loadBreakfast();
           return Scaffold(
             appBar: AppBar(
               title: Text(
@@ -66,7 +67,7 @@ class _CategoryPageState extends State<CategoryPage>
                           ))
                       .toList()),
             ),
-            body: TabBarView(children: [
+            body: TabBarView(controller: tabController, children: [
               DishList(
                   noDataMessage: 'No dish with category Breakfast',
                   stream: bloc.breakfastStream),

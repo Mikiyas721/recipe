@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './ui/pages/dishPage.dart';
 import './ui/pages/openingPage.dart';
 import './util/preferenceKeys.dart';
 import './ui/pages/dishAddingPage.dart';
@@ -61,4 +62,5 @@ final routes = {
   '/searchPage': (BuildContext context) => SearchPage(),
   '/profilePage': (BuildContext context) => ProfilePage(),
   '/dishAddingPage': (BuildContext context) => DishAddingPage(),
+  '/dishPage': (BuildContext context) => DishPage(),
 };

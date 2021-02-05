@@ -28,7 +28,7 @@ class DishBloc extends Disposable {
       GetIt.instance.get<BehaviorSubject<List>>(instanceName: 'Desserts');
 
   final _name =
-      GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'Name');
+      GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'DishName');
   final _ingredients =
       GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'Ingredients');
   final _description =

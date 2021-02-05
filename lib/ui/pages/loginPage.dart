@@ -14,7 +14,6 @@ class LoginPage extends StatelessWidget {
         body: BlocProvider(
             bloc: AccountBloc(),
             builder: (BuildContext context, AccountBloc bloc) {
-              bloc.clearStreams();
               return Stack(
                 children: [
                   SingleChildScrollView(

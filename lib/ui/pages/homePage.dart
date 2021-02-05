@@ -12,15 +12,16 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
         bloc: DishBloc(),
         builder: (BuildContext context, DishBloc bloc) {
+          bloc.loadLatest();
           return Scaffold(
             appBar: AppBar(
-              toolbarHeight: 340,
+              toolbarHeight: 300,
               elevation: 0,
               flexibleSpace: Stack(
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.34,
                         viewportFraction: 1,
                         autoPlay: true,
                         autoPlayInterval: Duration(seconds: 5)),
@@ -52,7 +53,7 @@ class HomePage extends StatelessWidget {
                           Padding(
                             padding: 20.hPadding,
                             child: Text(
-                              'Latest Recipes',
+                              'Latest Dishes',
                               style: context.headline2,
                             ),
                           ),
@@ -63,8 +64,11 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            body: DishList(
-                noDataMessage: 'No recent dish', stream: bloc.latestStream),
+            body: Padding(
+              padding: const EdgeInsets.only(bottom:60),
+              child: DishList(
+                  noDataMessage: 'No recent dish', stream: bloc.latestStream),
+            ),
             bottomSheet: Container(
               color: context.primaryColor,
               child: Row(

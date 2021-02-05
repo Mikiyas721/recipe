@@ -14,7 +14,6 @@ class SignUpPage extends StatelessWidget {
       body: BlocProvider(
           bloc: AccountBloc(),
           builder: (BuildContext context, AccountBloc bloc) {
-            bloc.clearStreams();
             return Stack(
               children: [
                 SingleChildScrollView(
@@ -85,7 +84,7 @@ class SignUpPage extends StatelessWidget {
                                   : Toast.show(
                                       'Unable to create account', context);
                             }),
-                        50.vSpace,
+                        35.vSpace,
                         Center(child: Image.asset('assets/3.jpg')),
                         Center(
                           child: Text(

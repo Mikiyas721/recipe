@@ -40,9 +40,9 @@ class _BlocProviderState<T extends Disposable> extends State<BlocProvider<T>> {
     return Provider(bloc: bloc, child: widget.builder(context, bloc));
   }
 
-  @override
+/*  @override
   void dispose() {
     bloc.dispose();
     super.dispose();
-  }
+  }*/
 }

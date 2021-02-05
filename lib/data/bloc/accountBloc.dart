@@ -8,7 +8,7 @@ import '../../util/preferenceKeys.dart';
 import '../../util/abstracts/disposable.dart';
 
 class AccountBloc extends Disposable {
-  final _name = GetIt.instance.get<BehaviorSubject>(instanceName: 'Name');
+  final _name = GetIt.instance.get<BehaviorSubject>(instanceName: 'UserName');
   final _phoneNumber =
       GetIt.instance.get<BehaviorSubject>(instanceName: 'PhoneNumber');
   final _email = GetIt.instance.get<BehaviorSubject>(instanceName: 'Email');
@@ -31,8 +31,8 @@ class AccountBloc extends Disposable {
 
   Stream<String> get passwordValidationStream =>
       _password.map((data) => validatePassword(data));
-  Stream<User> get myAccountStream =>
-      _myAccount.map((data) => data);
+
+  Stream<User> get myAccountStream => _myAccount.map((data) => data);
 
   void onNameChanged(String name) => _name.add(name);
 
@@ -44,9 +44,9 @@ class AccountBloc extends Disposable {
 
   String validateName(String textFieldInput) {
     if (textFieldInput == '' || textFieldInput == null)
-      return '';
+      return null;
     else if (isNameValid(textFieldInput))
-      return '';
+      return null;
     else
       return 'Name must be at least 5 characters long and two words';
   }
@@ -58,21 +58,24 @@ class AccountBloc extends Disposable {
 
   String validatePhoneNumber(String textFieldInput) {
     if (textFieldInput == '' || textFieldInput == null)
-      return '';
+      return null;
     else if (isPhoneNumberValid(textFieldInput))
-      return '';
+      return null;
     else
       return 'Invalid phone number';
   }
 
   bool isPhoneNumberValid(String textFieldInput) =>
-      textFieldInput.length == 9 && textFieldInput.length == 10 ? true : false;
+      (textFieldInput.startsWith('9') && textFieldInput.length == 9) ||
+              textFieldInput.length == 10
+          ? true
+          : false;
 
   String validateEmail(String textFieldInput) {
     if (textFieldInput == '' || textFieldInput == null)
-      return '';
+      return null;
     else if (isEmailValid(textFieldInput))
-      return '';
+      return null;
     else
       return 'Invalid email';
   }
@@ -85,9 +88,9 @@ class AccountBloc extends Disposable {
 
   String validatePassword(String textFieldInput) {
     if (textFieldInput == '' || textFieldInput == null)
-      return '';
+      return null;
     else if (isPasswordValid(textFieldInput))
-      return '';
+      return null;
     else
       return 'Password must be at least 4 characters long';
   }
@@ -120,9 +123,13 @@ class AccountBloc extends Disposable {
     }
     return false;
   }
-  void loadMyAccount()async{
-    _myAccount.add(User.fromJson((await _api.getUser(_preference.get(PreferenceKeys.userIdKey))).data['users_by_pk']));
+
+  void loadMyAccount() async {
+    _myAccount.add(User.fromJson(
+        (await _api.getUser(_preference.get(PreferenceKeys.userIdKey)))
+            .data['users_by_pk']));
   }
+
   Future<bool> onLogIn() async {
     QueryResult result = await _api.checkUser(
         User(phoneNumber: _phoneNumber.value, password: _password.value));

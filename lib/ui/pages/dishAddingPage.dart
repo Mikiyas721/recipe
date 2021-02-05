@@ -70,7 +70,7 @@ class DishAddingPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    150.vSpace,
+                    100.vSpace,
                     MyButton(
                       text: 'Add',
                       onPressed: () async{

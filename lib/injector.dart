@@ -10,12 +10,12 @@ Future<void> inject() async{
   final preference = await SharedPreferences.getInstance();
   getIt.registerSingleton(preference);
   getIt.registerLazySingleton(() => ApiQuery());
-  getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Name');
+  getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'UserName');
   getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'PhoneNumber');
   getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Email');
   getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Password');
 
-  getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Name');
+  getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'DishName');
   getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Ingredients');
   getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Description');
   getIt.registerLazySingleton(() => BehaviorSubject<DishCategory>(),instanceName:'DishCategory');

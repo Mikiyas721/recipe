@@ -16,7 +16,7 @@ class User extends Mappable {
       @required this.password});
 
   factory User.fromJson(Map map) {
-    return User(
+    return map==null?null:User(
       id: map['id'],
       name: map['name'],
       phoneNumber: map['phone_number'],
