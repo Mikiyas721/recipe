@@ -10,7 +10,7 @@ import './ui/pages/homePage.dart';
 import './ui/pages/searchPage.dart';
 import './ui/pages/loginPage.dart';
 import './ui/pages/signUpPage.dart';
-import 'injector.dart';
+import './injector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

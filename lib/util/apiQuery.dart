@@ -1,4 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import '../util/enums/category.dart';
 import '../data/models/dish.dart';
 import '../data/models/user.dart';
 import './extensions/common.dart';
@@ -54,8 +55,48 @@ class ApiQuery {
       }
       ''');
   }
+  Future<QueryResult> getUser(int userId) {
+    return _query('''
+      query MyQuery {
+        users_by_pk(id: "$userId") {
+          id
+          name
+          phone_number
+          email
+        }
+      }
+      ''');
+  }
+  Future<QueryResult> getLatestDishes() {
+    return _query('''
+      query MyQuery {
+        dishes(where: {created_at: {_gt: "${DateTime.now().subtract(Duration(days: 2)).toString()}"}}) {
+          id
+          name
+          ingredients
+          description
+          dish_category
+          created_at
+        }
+      }
+    ''');
+  }
+  Future<QueryResult> getDishByCategory(DishCategory category) {
+    return _query('''
+      query MyQuery {
+        dishes(where: {dish_category: {_eq: "${category.getString()}"}}) {
+          id
+          name
+          ingredients
+          description
+          dish_category
+          created_at
+        }
+      }
+    ''');
+  }
 
-  Future<QueryResult> getDishesForUser(int userId, String date) {
+  Future<QueryResult> getDishesForUser(int userId) {
     return _query('''
       query MyQuery {
         dishes(where: {_and: {user_id: {_eq: $userId}}}) {
@@ -69,12 +110,11 @@ class ApiQuery {
     ''');
   }
 
-  Future<QueryResult> addTodo(Dish dish) {
+  Future<QueryResult> addDish(Dish dish) {
     return _mutate('''
       mutation addDish {
-        insert_dishes_one(object: {name: "${dish.name}", ingredient: "${dish.ingredients}",
-         description: "${dish.description}", dish_category: "${dish.dishCategory.getString()}"})
-        {
+        insert_dishes_one(object: {name: "${dish.name}", ingredients: "${dish.ingredients}",
+         description: "${dish.description}", dish_category: "${dish.dishCategory.getString()}, user_id:"${dish.userId}"}){
           id
         }
        }

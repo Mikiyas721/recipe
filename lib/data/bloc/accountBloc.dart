@@ -14,6 +14,9 @@ class AccountBloc extends Disposable {
   final _email = GetIt.instance.get<BehaviorSubject>(instanceName: 'Email');
   final _password =
       GetIt.instance.get<BehaviorSubject>(instanceName: 'Password');
+  final _myAccount =
+      GetIt.instance.get<BehaviorSubject<User>>(instanceName: 'MyAccount');
+
   final _api = GetIt.instance.get<ApiQuery>();
   final _preference = GetIt.instance.get<SharedPreferences>();
 
@@ -28,6 +31,8 @@ class AccountBloc extends Disposable {
 
   Stream<String> get passwordValidationStream =>
       _password.map((data) => validatePassword(data));
+  Stream<User> get myAccountStream =>
+      _myAccount.map((data) => data);
 
   void onNameChanged(String name) => _name.add(name);
 
@@ -115,7 +120,9 @@ class AccountBloc extends Disposable {
     }
     return false;
   }
-
+  void loadMyAccount()async{
+    _myAccount.add(User.fromJson((await _api.getUser(_preference.get(PreferenceKeys.userIdKey))).data['users_by_pk']));
+  }
   Future<bool> onLogIn() async {
     QueryResult result = await _api.checkUser(
         User(phoneNumber: _phoneNumber.value, password: _password.value));
@@ -137,5 +144,6 @@ class AccountBloc extends Disposable {
     _email.close();
     _phoneNumber.close();
     _password.close();
+    _myAccount.close();
   }
 }

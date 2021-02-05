@@ -1,29 +1,95 @@
 import 'package:flutter/material.dart';
+import '../../ui/widgets/dishList.dart';
+import '../../data/bloc/dishBloc.dart';
+import '../../data/bloc/provider.dart';
 import '../../util/extensions/common.dart';
 
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage>
+    with TickerProviderStateMixin {
+  TabController tabController;
+  DishBloc bloc;
+
+  @override
+  void initState() {
+    bloc = DishBloc();
+    tabController = TabController(length: 7, vsync: this);
+    tabController.addListener(() {
+      if (tabController.index == 0)
+        bloc.loadBreakfast();
+      else if (tabController.index == 1)
+        bloc.loadLunch();
+      else if (tabController.index == 2)
+        bloc.loadDrinks();
+      else if (tabController.index == 3)
+        bloc.loadAppetizers();
+      else if (tabController.index == 4)
+        bloc.loadSoups();
+      else if (tabController.index == 5)
+        bloc.loadVegetarian();
+      else if (tabController.index == 6) bloc.loadDesserts();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 10,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Recipes',style: context.headline2,),
-          bottom: TabBar(
-              labelPadding: 10.allPadding,
-              isScrollable: true,
-              tabs: ['Breakfast', 'Lunch', 'Beverages', 'Appetizers', 'Soups','Breakfast', 'Lunch', 'Beverages', 'Appetizers', 'Soups',]
-                  .map((e) => Text(
-                        e,
-                        style: context.bodyText2,
-                      ))
-                  .toList()),
-        ),
-        body: TabBarView(
-            children: ['Breakfast', 'Lunch', 'Beverages', 'Appetizers', 'Soups','Breakfast', 'Lunch', 'Beverages', 'Appetizers', 'Soups',]
-                .map((e) => Center(child: Text(e,style: context.headline1,)))
-                .toList()),
-      ),
-    );
+    return BlocProvider(
+        bloc: bloc,
+        builder: (BuildContext context, DishBloc bloc) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Dishes',
+                style: context.headline2,
+              ),
+              bottom: TabBar(
+                  controller: tabController,
+                  labelPadding: 10.allPadding,
+                  isScrollable: true,
+                  tabs: [
+                    'Breakfast',
+                    'Lunch',
+                    'Drinks',
+                    'Appetizers',
+                    'Soups',
+                    'Vegetarian',
+                    'Desserts',
+                  ]
+                      .map((e) => Text(
+                            e,
+                            style: context.bodyText2,
+                          ))
+                      .toList()),
+            ),
+            body: TabBarView(children: [
+              DishList(
+                  noDataMessage: 'No dish with category Breakfast',
+                  stream: bloc.breakfastStream),
+              DishList(
+                  noDataMessage: 'No dish with category Lunch',
+                  stream: bloc.lunchStream),
+              DishList(
+                  noDataMessage: 'No dish with category Drinks',
+                  stream: bloc.drinksStream),
+              DishList(
+                  noDataMessage: 'No dish with category Appetizers',
+                  stream: bloc.appetizersStream),
+              DishList(
+                  noDataMessage: 'No dish with category Soups',
+                  stream: bloc.soupsStream),
+              DishList(
+                  noDataMessage: 'No dish with category Vegetarian',
+                  stream: bloc.vegetarianStream),
+              DishList(
+                  noDataMessage: 'No dish with category Desserts',
+                  stream: bloc.dessertsStream),
+            ]),
+          );
+        });
   }
 }

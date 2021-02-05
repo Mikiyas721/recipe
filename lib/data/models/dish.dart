@@ -9,6 +9,7 @@ class Dish extends Mappable {
   final String ingredients;
   final String description;
   final DishCategory dishCategory;
+  final DateTime createdAt;
   final int userId;
 
   Dish({
@@ -17,6 +18,7 @@ class Dish extends Mappable {
     @required this.ingredients,
     @required this.description,
     @required this.dishCategory,
+    this.createdAt,
     @required this.userId,
   });
 
@@ -27,6 +29,7 @@ class Dish extends Mappable {
       ingredients: map['ingredients'],
       description: map['description'],
       dishCategory: map['dish_category'].getCategory(),
+      createdAt: DateTime.parse(map['created_at']),
       userId: map['user_id'],
     );
   }

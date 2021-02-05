@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../data/bloc/accountBloc.dart';
+import '../../data/bloc/dishBloc.dart';
+import '../../data/bloc/provider.dart';
+import '../../data/models/user.dart';
+import '../../ui/widgets/dishList.dart';
 import '../../util/extensions/common.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -8,44 +13,62 @@ class ProfilePage extends StatelessWidget {
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
-            SliverAppBar(
-                backgroundColor: Color(0xff20c060),
-                expandedHeight: MediaQuery.of(context).size.height * 0.2,
-                pinned: true,
-                collapsedHeight: 70,
-                flexibleSpace: FlexibleSpaceBar(collapseMode: CollapseMode.pin,
-                    title: Container(
-                        decoration: BoxDecoration(color: Color(0xff20c060)),
-                        child: Row(crossAxisAlignment: CrossAxisAlignment.end,children: [
-                          CircleAvatar(
-                            child: Text('M'),
-                            radius: 23,
-                          ),
-                          7.hSpace,
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'Mikiyas Tesfaye',
-                                  style: context.headline3,
-                                ),
-                                Text(
-                                  '+251 941135730',
-                                  style: context.headline3,
-                                ),
-                                Text(
-                                  'Mikiyas721@gmail.com',
-                                  style: context.headline3,
-                                ),
-                              ])
-                        ]))))
+            BlocProvider(
+                bloc: AccountBloc(),
+                builder: (BuildContext context, AccountBloc bloc) {
+                  bloc.loadMyAccount();
+                  return SliverAppBar(
+                      backgroundColor: Color(0xff20c060),
+                      expandedHeight: MediaQuery.of(context).size.height * 0.2,
+                      pinned: true,
+                      collapsedHeight: 70,
+                      flexibleSpace: FlexibleSpaceBar(
+                          collapseMode: CollapseMode.pin,
+                          title: Container(
+                              decoration:
+                                  BoxDecoration(color: Color(0xff20c060)),
+                              child: StreamBuilder(
+                                stream: bloc.myAccountStream,
+                                builder: (BuildContext context,AsyncSnapshot<User> snapshot) {
+                                  return snapshot.data==null?Container():Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        CircleAvatar(
+                                          child: Text('M'),
+                                          radius: 23,
+                                        ),
+                                        7.hSpace,
+                                        Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                snapshot.data.name,
+                                                style: context.headline3,
+                                              ),
+                                              Text(
+                                                snapshot.data.phoneNumber,
+                                                style: context.headline3,
+                                              ),
+                                              Text(
+                                                snapshot.data.email,
+                                                style: context.headline3,
+                                              ),
+                                            ])
+                                      ]);
+                                }
+                              ))));
+                })
           ];
         },
-        body: ListView.builder(
-            itemCount: 0,
-            itemBuilder: (BuildContext context, int count) {
-              return Container();
+        body: BlocProvider(
+            bloc: DishBloc(),
+            builder: (BuildContext context, DishBloc bloc) {
+              return DishList(
+                  noDataMessage: 'You have no dish',
+                  stream: bloc.myDishesStream);
             }),
       ),
     );
