@@ -116,7 +116,7 @@ class ApiQuery {
   Future<QueryResult> getDishesForUser(int userId) {
     return _query('''
       query MyQuery {
-        dishes(where: {_and: {user_id: {_eq: $userId}}}) {
+        dishes(where: {user_id: {_eq: $userId}}) {
           id
           name
           ingredients
@@ -137,5 +137,28 @@ class ApiQuery {
         }
        }
     ''');
+  }
+
+  Future<QueryResult> getDishesByName(String name,int userId) {
+    return _query('''
+      query MyQuery {
+        dishes(where: {_and: {user_id: {_neq: "$userId"}, name: {_eq: "$name"}}}) {
+          id
+          name
+          ingredients
+          description
+          dish_category
+          created_at
+          user_id
+          user {
+            id
+            name
+            phone_number
+            email
+            password
+          }
+        }
+      }
+      ''');
   }
 }

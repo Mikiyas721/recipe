@@ -35,6 +35,10 @@ class DishBloc extends Disposable {
       GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'Description');
   final _dishCategory = GetIt.instance
       .get<BehaviorSubject<DishCategory>>(instanceName: 'DishCategory');
+  final _search =
+      GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'Search');
+  final _searchResult =
+      GetIt.instance.get<BehaviorSubject<List>>(instanceName: 'SearchResult');
 
   final _api = GetIt.instance.get<ApiQuery>();
   final _preference = GetIt.instance.get<SharedPreferences>();
@@ -57,6 +61,18 @@ class DishBloc extends Disposable {
 
   Stream<List> get dessertsStream => _desserts.map((value) => value);
 
+  Stream<List> get searchResultStream => _searchResult.map((value) => value);
+
+  DishBloc() {
+    _searchResult.add([]);
+    _search.listen((String value) async {
+      _searchResult.add(null);
+      _searchResult.add((await _api.getDishesByName(
+              value, _preference.getInt(PreferenceKeys.userIdKey)))
+          .data['dishes']);
+    });
+  }
+
   void onName(String value) {
     _name.add(value);
   }
@@ -71,6 +87,10 @@ class DishBloc extends Disposable {
 
   void onDishCategory(DishCategory value) {
     _dishCategory.add(value);
+  }
+
+  void onSearch(String value) {
+    _search.add(value);
   }
 
   void loadLatest() async {
@@ -146,5 +166,7 @@ class DishBloc extends Disposable {
     _ingredients.close();
     _description.close();
     _dishCategory.close();
+    _search.close();
+    _searchResult.close();
   }
 }

@@ -32,5 +32,8 @@ Future<void> inject() async{
 
   getIt.registerLazySingleton(() => BehaviorSubject<User>(),instanceName:'MyAccount');
 
+  getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Search');
+  getIt.registerLazySingleton(() => BehaviorSubject<List>(),instanceName:'SearchResults');
+
 
 }
