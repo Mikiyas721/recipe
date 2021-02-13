@@ -19,6 +19,7 @@ Future<void> inject() async{
   getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Ingredients');
   getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'Description');
   getIt.registerLazySingleton(() => BehaviorSubject<DishCategory>(),instanceName:'DishCategory');
+  getIt.registerLazySingleton(() => BehaviorSubject<String>(),instanceName:'DishImage');
 
   getIt.registerLazySingleton(() => BehaviorSubject<List>(),instanceName:'Latest');
   getIt.registerLazySingleton(() => BehaviorSubject<List>(),instanceName:'MyDishes');

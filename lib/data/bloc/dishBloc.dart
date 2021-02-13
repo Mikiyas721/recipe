@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:get_it/get_it.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:recipe/data/models/dish.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../data/models/dish.dart';
 import '../../util/apiQuery.dart';
 import '../../util/enums/category.dart';
 import '../../util/preferenceKeys.dart';
@@ -35,10 +38,12 @@ class DishBloc extends Disposable {
       GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'Description');
   final _dishCategory = GetIt.instance
       .get<BehaviorSubject<DishCategory>>(instanceName: 'DishCategory');
+  final _dishImage =
+      GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'DishImage');
   final _search =
       GetIt.instance.get<BehaviorSubject<String>>(instanceName: 'Search');
   final _searchResult =
-      GetIt.instance.get<BehaviorSubject<List>>(instanceName: 'SearchResult');
+      GetIt.instance.get<BehaviorSubject<List>>(instanceName: 'SearchResults');
 
   final _api = GetIt.instance.get<ApiQuery>();
   final _preference = GetIt.instance.get<SharedPreferences>();
@@ -87,6 +92,10 @@ class DishBloc extends Disposable {
 
   void onDishCategory(DishCategory value) {
     _dishCategory.add(value);
+  }
+
+  void onDishImage(String path) {
+    _dishImage.add(path);
   }
 
   void onSearch(String value) {
@@ -139,9 +148,12 @@ class DishBloc extends Disposable {
   }
 
   Future<bool> addDish() async {
-    return !(await _api.addDish(
+    final bytes = File(_dishImage.value).readAsBytesSync();
+    String image64 = base64Encode(bytes);
+     return !(await _api.addDish(
       Dish(
           name: _name.value,
+          image: image64,
           ingredients: _ingredients.value,
           description: _description.value,
           dishCategory: _dishCategory.value,
@@ -166,6 +178,7 @@ class DishBloc extends Disposable {
     _ingredients.close();
     _description.close();
     _dishCategory.close();
+    _dishImage.close();
     _search.close();
     _searchResult.close();
   }

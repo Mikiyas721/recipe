@@ -1,4 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:recipe/data/models/dish.dart';
 import '../../util/extensions/common.dart';
@@ -7,32 +8,20 @@ class DishPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Dish dish = ModalRoute.of(context).settings.arguments;
+    Uint8List bytes =  base64.decode(dish.image);
     return Scaffold(
       body: Stack(
         children: [
-          CarouselSlider(
-            options: CarouselOptions(
-                height: MediaQuery.of(context).size.height * 0.43,
-                viewportFraction: 1,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 5)),
-            items: [
-              'assets/1.jpg',
-              'assets/2.jpg',
-              'assets/3.jpg',
-              'assets/4.jpg',
-            ]
-                .map((String url) => Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(url), fit: BoxFit.fill)),
-                    ))
-                .toList(),
+          Container(
+            height: MediaQuery.of(context).size.height*0.5,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: MemoryImage(bytes), fit: BoxFit.fill)),
           ),
           DraggableScrollableSheet(
-              minChildSize: 0.6,
+              minChildSize: 0.5,
               maxChildSize: 0.8,
-              initialChildSize: 0.6,
+              initialChildSize: 0.5,
               builder: (BuildContext context, ScrollController controller) {
                 return Container(
                   decoration: BoxDecoration(

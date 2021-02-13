@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../../data/models/dish.dart';
 import '../../util/extensions/common.dart';
@@ -9,6 +11,7 @@ class DishCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Uint8List bytes =  base64.decode(dish.image);
     return InkWell(
       onTap: (){
         Navigator.pushNamed(context, '/dishPage',arguments: dish);
@@ -19,7 +22,7 @@ class DishCard extends StatelessWidget {
         height: 250,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/1.jpg'), fit: BoxFit.fill),
+                image: MemoryImage(bytes), fit: BoxFit.fill),
             border: Border.all(width: 0.2, color: Colors.black),
             borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Stack(

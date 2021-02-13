@@ -14,9 +14,7 @@ class ApiQuery {
           link: HttpLink(
             uri: 'https://recipeapi.hasura.app/v1/graphql',
           ),
-        ),
-        _subscriptionClient =
-            SocketClient('ws://recipeapi.hasura.app/v1/graphql');
+        );
 
   Future<QueryResult> _query(String query) async =>
       await _client.query(QueryOptions(
@@ -27,10 +25,6 @@ class ApiQuery {
       await _client.mutate(MutationOptions(
         documentNode: gql(query),
       ));
-
-  Stream<SubscriptionData> _subscribe(String query) =>
-      _subscriptionClient.subscribe(
-          SubscriptionRequest(Operation(documentNode: gql(query))), true);
 
   Future<QueryResult> createUser(User user) {
     return _mutate('''
@@ -75,6 +69,7 @@ class ApiQuery {
         dishes(where: {created_at: {_gt: "${DateTime.now().subtract(Duration(days: 2)).toString()}"}}) {
           id
           name
+          image
           ingredients
           description
           dish_category
@@ -97,6 +92,7 @@ class ApiQuery {
         dishes(where: {dish_category: {_eq: "${category.getString()}"}}) {
           id
           name
+          image
           ingredients
           description
           dish_category
@@ -119,6 +115,7 @@ class ApiQuery {
         dishes(where: {user_id: {_eq: $userId}}) {
           id
           name
+          image
           ingredients
           description
           dish_category 
@@ -130,21 +127,21 @@ class ApiQuery {
 
   Future<QueryResult> addDish(Dish dish) {
     return _mutate('''
-      mutation addDish {
-        insert_dishes_one(object: {name: "${dish.name}", ingredients: "${dish.ingredients}",
-         description: "${dish.description}", dish_category: "${dish.dishCategory.getString()}", user_id:"${dish.userId}"}){
+      mutation {
+        insert_dishes_one(object: {name: "${dish.name}", image: "${dish.image}", description: "${dish.description}", ingredients: "${dish.ingredients}", dish_category: "${dish.dishCategory.getString()}", user_id: "${dish.userId}"}) {
           id
         }
-       }
+      }
     ''');
   }
 
-  Future<QueryResult> getDishesByName(String name,int userId) {
+  Future<QueryResult> getDishesByName(String name, int userId) {
     return _query('''
       query MyQuery {
         dishes(where: {_and: {user_id: {_neq: "$userId"}, name: {_eq: "$name"}}}) {
           id
           name
+          image
           ingredients
           description
           dish_category
@@ -161,4 +158,5 @@ class ApiQuery {
       }
       ''');
   }
+
 }

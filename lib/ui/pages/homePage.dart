@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import '../../data/bloc/dishBloc.dart';
@@ -19,26 +21,34 @@ class HomePage extends StatelessWidget {
               elevation: 0,
               flexibleSpace: Stack(
                 children: [
-                  CarouselSlider(
-                    options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height * 0.34,
-                        viewportFraction: 1,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 5)),
-                    items: [
-                      'assets/1.jpg',
-                      'assets/2.jpg',
-                      'assets/3.jpg',
-                      'assets/4.jpg',
-                    ]
-                        .map((String url) => Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(url),
-                                      fit: BoxFit.fill)),
-                            ))
-                        .toList(),
-                  ),
+                  StreamBuilder(
+                      stream: bloc.latestStream,
+                      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+                        return snapshot.data == null
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : snapshot.data.isEmpty
+                                ? Container()
+                                : CarouselSlider(
+                                    options: CarouselOptions(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.34,
+                                        viewportFraction: 1,
+                                        autoPlay: true,
+                                        autoPlayInterval: Duration(seconds: 5)),
+                                    items: snapshot.data.map((map){
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: MemoryImage(base64.decode(map['image'])
+                                            ),
+                                                fit: BoxFit.fill)),
+                                      );
+                                    }).toList()
+                                  );
+                      }),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -65,7 +75,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             body: Padding(
-              padding: const EdgeInsets.only(bottom:60),
+              padding: const EdgeInsets.only(bottom: 60),
               child: DishList(
                   noDataMessage: 'No recent dish', stream: bloc.latestStream),
             ),

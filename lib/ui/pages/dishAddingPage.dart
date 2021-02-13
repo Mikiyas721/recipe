@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 import '../../data/bloc/dishBloc.dart';
 import '../../data/bloc/provider.dart';
@@ -29,10 +30,12 @@ class DishAddingPage extends StatelessWidget {
                     MyTextField(
                         title: 'ingredients',
                         maxLines: 6,
+                        keyBoardType: TextInputType.multiline,
                         onChanged: bloc.onIngredients),
                     MyTextField(
                         title: 'description',
                         maxLines: 6,
+                        keyBoardType: TextInputType.multiline,
                         onChanged: bloc.onDescription),
                     MyDropDown(
                         items: [
@@ -61,7 +64,10 @@ class DishAddingPage extends StatelessWidget {
                                 ),
                                 backgroundColor: Color(0xffefefef),
                               ),
-                              onTap: () {},
+                              onTap: () async{
+                                PickedFile file = await ImagePicker().getImage(source: ImageSource.gallery);
+                                bloc.onDishImage(file.path);
+                              },
                             ),
                             5.hSpace,
                             Text('Add photos',
