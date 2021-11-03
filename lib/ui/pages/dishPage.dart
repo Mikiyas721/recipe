@@ -16,7 +16,7 @@ class DishPage extends StatelessWidget {
             height: MediaQuery.of(context).size.height*0.5,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: MemoryImage(bytes), fit: BoxFit.fill)),
+                    image: MemoryImage(bytes), fit: BoxFit.cover)),
           ),
           DraggableScrollableSheet(
               minChildSize: 0.5,

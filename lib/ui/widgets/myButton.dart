@@ -29,11 +29,10 @@ class MyButton extends StatelessWidget {
             onPressed: onPressed,
             color: context.primaryColor,
             textColor: Colors.white,
-            child: isLoading
-                ? CircularProgressIndicator()
-                : Text(text),
+            child: isLoading ? CircularProgressIndicator() : Text(text),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
           ),
         ),
       ),

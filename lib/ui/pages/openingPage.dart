@@ -17,7 +17,7 @@ class OpeningPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
-                  'Become a pro chef in your house',
+                  'Become a pro Chef at your own home',
                   style: context.headline1,
                   textAlign: TextAlign.center,
                 ),
@@ -25,7 +25,7 @@ class OpeningPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 30),
                 child: Text(
-                  'Join the biggest recipe sharing platform in the globe! Share your recipes with the world and learn to cook different things .',
+                  'Join the biggest recipe sharing platform in the globe! Share your recipes with the world and learn to cook different dishes .',
                   style: context.subtitle2,
                   textAlign: TextAlign.center,
                 ),

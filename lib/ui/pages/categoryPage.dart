@@ -11,37 +11,32 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage>
     with TickerProviderStateMixin {
-  TabController tabController;
-  DishBloc bloc;
-
-  @override
-  void initState() {
-    bloc = DishBloc();
-    tabController = TabController(length: 7, vsync: this);
-    tabController.addListener(() {
-      if (tabController.index == 0)
-        bloc.loadBreakfast();
-      else if (tabController.index == 1)
-        bloc.loadLunch();
-      else if (tabController.index == 2)
-        bloc.loadDrinks();
-      else if (tabController.index == 3)
-        bloc.loadAppetizers();
-      else if (tabController.index == 4)
-        bloc.loadSoups();
-      else if (tabController.index == 5)
-        bloc.loadVegetarian();
-      else if (tabController.index == 6) bloc.loadDesserts();
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    TabController tabController;
+
     return BlocProvider(
-        bloc: bloc,
-        builder: (BuildContext context, DishBloc bloc) {
+        bloc: DishBloc(context),
+        onInit: (DishBloc bloc) {
+          tabController = TabController(length: 7, vsync: this);
+          tabController.addListener(() {
+            if (tabController.index == 0)
+              bloc.loadBreakfast();
+            else if (tabController.index == 1)
+              bloc.loadLunch();
+            else if (tabController.index == 2)
+              bloc.loadDrinks();
+            else if (tabController.index == 3)
+              bloc.loadAppetizers();
+            else if (tabController.index == 4)
+              bloc.loadSoups();
+            else if (tabController.index == 5)
+              bloc.loadVegetarian();
+            else if (tabController.index == 6) bloc.loadDesserts();
+          });
           bloc.loadBreakfast();
+        },
+        builder: (BuildContext context, DishBloc bloc) {
           return Scaffold(
             appBar: AppBar(
               title: Text(

@@ -19,7 +19,7 @@ class DishAddingPage extends StatelessWidget {
         ),
       ),
       body: BlocProvider(
-          bloc: DishBloc(),
+          bloc: DishBloc(context),
           builder: (BuildContext context, DishBloc bloc) {
             return SingleChildScrollView(
               child: Padding(

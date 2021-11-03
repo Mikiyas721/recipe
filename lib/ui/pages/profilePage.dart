@@ -14,9 +14,11 @@ class ProfilePage extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             BlocProvider(
-                bloc: AccountBloc(),
-                builder: (BuildContext context, AccountBloc bloc) {
+                bloc: AccountBloc(context),
+                onInit: (AccountBloc bloc){
                   bloc.loadMyAccount();
+                },
+                builder: (BuildContext context, AccountBloc bloc) {
                   return SliverAppBar(
                       backgroundColor: Color(0xff20c060),
                       expandedHeight: MediaQuery.of(context).size.height * 0.2,
@@ -64,9 +66,11 @@ class ProfilePage extends StatelessWidget {
           ];
         },
         body: BlocProvider(
-            bloc: DishBloc(),
-            builder: (BuildContext context, DishBloc bloc) {
+            bloc: DishBloc(context),
+            onInit: (DishBloc bloc){
               bloc.loadMyDishes();
+            },
+            builder: (BuildContext context, DishBloc bloc) {
               return DishList(
                   noDataMessage: 'You have no dish',
                   stream: bloc.myDishesStream);

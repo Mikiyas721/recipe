@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import '../../data/bloc/dishBloc.dart';
@@ -12,9 +11,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        bloc: DishBloc(),
-        builder: (BuildContext context, DishBloc bloc) {
+        bloc: DishBloc(context),
+        onInit: (DishBloc bloc){
           bloc.loadLatest();
+        },
+        builder: (BuildContext context, DishBloc bloc) {
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 300,

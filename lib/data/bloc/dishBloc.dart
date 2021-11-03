@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:recipe/data/models/dish.dart';
@@ -10,7 +11,7 @@ import '../../util/enums/category.dart';
 import '../../util/preferenceKeys.dart';
 import '../../util/abstracts/disposable.dart';
 
-class DishBloc extends Disposable {
+class DishBloc extends Bloc implements Disposable {
   final _latest =
       GetIt.instance.get<BehaviorSubject<List>>(instanceName: 'Latest');
   final _myDishes =
@@ -68,7 +69,7 @@ class DishBloc extends Disposable {
 
   Stream<List> get searchResultStream => _searchResult.map((value) => value);
 
-  DishBloc() {
+  DishBloc(BuildContext context) : super(context) {
     _searchResult.add([]);
     _search.listen((String value) async {
       _searchResult.add(null);

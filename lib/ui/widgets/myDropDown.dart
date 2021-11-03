@@ -6,11 +6,12 @@ class MyDropDown extends StatefulWidget {
   final String title;
   final void Function(String selectedValue) onChanged;
 
-  MyDropDown(
-      {@required this.items,
-        @required this.title,
-        @required this.onChanged,
-        this.currentItem});
+  MyDropDown({
+    @required this.items,
+    @required this.title,
+    @required this.onChanged,
+    this.currentItem,
+  });
 
   @override
   State<StatefulWidget> createState() => _MyDropDownState();
@@ -38,10 +39,10 @@ class _MyDropDownState extends State<MyDropDown> {
             value: selectedValue,
             items: widget.items
                 .map<DropdownMenuItem<String>>((String value) =>
-                DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value,
-                        style: TextStyle(color: Colors.black45))))
+                    DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,
+                            style: TextStyle(color: Colors.black45))))
                 .toList(),
             onChanged: (String value) {
               setState(() {

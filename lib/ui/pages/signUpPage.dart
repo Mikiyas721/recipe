@@ -12,7 +12,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-          bloc: AccountBloc(),
+          bloc: AccountBloc(context),
           builder: (BuildContext context, AccountBloc bloc) {
             return Stack(
               children: [

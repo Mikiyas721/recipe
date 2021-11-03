@@ -7,7 +7,7 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        bloc: DishBloc(),
+        bloc: DishBloc(context),
         builder: (BuildContext context, DishBloc bloc) {
           return Scaffold(
             appBar: AppBar(

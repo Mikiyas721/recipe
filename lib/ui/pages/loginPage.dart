@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-            bloc: AccountBloc(),
+            bloc: AccountBloc(context),
             builder: (BuildContext context, AccountBloc bloc) {
               return Stack(
                 children: [
@@ -56,14 +56,15 @@ class LoginPage extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Row(
+                            child: /*Row(
                               children: [
                                 Spacer(),
                                 TextButton(
                                     onPressed: () {},
                                     child: Text('Forgot Password?'))
                               ],
-                            ),
+                            )*/
+                            Container(height: 48)
                           ),
                           MyButton(
                             text: 'Log back in',

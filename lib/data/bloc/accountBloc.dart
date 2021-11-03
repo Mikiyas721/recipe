@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:rxdart/rxdart.dart';
@@ -7,7 +8,7 @@ import '../../util/apiQuery.dart';
 import '../../util/preferenceKeys.dart';
 import '../../util/abstracts/disposable.dart';
 
-class AccountBloc extends Disposable {
+class AccountBloc extends Bloc {
   final _name = GetIt.instance.get<BehaviorSubject>(instanceName: 'UserName');
   final _phoneNumber =
       GetIt.instance.get<BehaviorSubject>(instanceName: 'PhoneNumber');
@@ -19,6 +20,8 @@ class AccountBloc extends Disposable {
 
   final _api = GetIt.instance.get<ApiQuery>();
   final _preference = GetIt.instance.get<SharedPreferences>();
+
+  AccountBloc(BuildContext context) : super(context);
 
   Stream<String> get nameValidationStream =>
       _name.map((data) => validateName(data));
